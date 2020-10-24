@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/', page: () => LoginScreen()),
         GetPage(name: '/register', page: () => RegisterScreen()),
         GetPage(name: '/dashboard', page: () => DashboardScreen()),
-        GetPage(name: '/profile', page: () => ProfileScreen()),
+        GetPage(name: '/profile', page: () => ProfileScreen(), transition: Transition.rightToLeft),
       ],
       title: 'Test App',
       theme: ThemeData(

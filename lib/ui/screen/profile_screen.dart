@@ -1,6 +1,9 @@
 import 'package:ant_icons/ant_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:test_app/core/models/auth_model.dart';
+import 'package:test_app/core/viewmodel/auth_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -10,6 +13,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -68,14 +72,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         Positioned(
-                          bottom: 45,
-                          right: 45,
-                          child: IconButton(icon: Icon(AntIcons.camera,size: 40,), onPressed: () {}))
+                            bottom: 45,
+                            right: 45,
+                            child: IconButton(
+                                icon: Icon(
+                                  AntIcons.camera,
+                                  size: 40,
+                                ),
+                                onPressed: () {}))
                       ],
                     ),
-                  ListTile(
-                    title: Text("Nama"),
-                  )
+                    Card(
+                      margin: EdgeInsets.symmetric(horizontal: 10,),
+                      shadowColor: Colors.blue[50],
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            contentPadding: EdgeInsets.symmetric(horizontal:20), //TODO: atur agar bisa tampiin profile yg baoil
+                            title: Text("Nama"),
+                            subtitle: Text(auth.fullname ?? " "),
+                          ),
+                          Divider(
+                            indent: 15,
+                            endIndent: 15,
+                            thickness: 2,
+                            color: Colors.black12,
+                          )
+                        ],
+                      ),
+                    ),
+                    ListTile(
+                      title: Text("Nama"),
+                      subtitle: Text(auth.email ?? " "),
+                    )
                   ],
                 ),
               ),

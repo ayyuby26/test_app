@@ -4,7 +4,7 @@ class AuthModel {
   final String email;
   final String password;
   final String fullname;
-  final File avatar;
+  final String avatar;
 
   AuthModel({this.email, this.password, this.fullname, this.avatar});
 

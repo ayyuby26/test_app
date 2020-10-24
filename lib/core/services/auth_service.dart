@@ -14,6 +14,7 @@ class AuthService {
     String password,
     BuildContext context,
   ) async {
+    final auth = Provider.of<AuthProvider>(context);
     try {
       var response = await http.put(url,
           body: jsonEncode({
@@ -27,8 +28,10 @@ class AuthService {
       if (status == 409)
         Get.snackbar("Kesalahan", result['message']);
       else if (status == 200) {
-        var _r = result as List;
-        _r.map((e) => AuthModel.fromJson(e));
+        Map <String, dynamic> _r = (result as List)[0];
+        auth.setFullname(_r['fullname']);
+        auth.setEmail(_r['email']);
+        auth.setPass(_r['password']);
         Get.offNamed('/dashboard');
       }
     } catch (e) {

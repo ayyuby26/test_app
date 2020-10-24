@@ -38,15 +38,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            width: 1,
-            color: Color(0xFFe7eaf3).withAlpha(2),
-          ),
-        ),
-        elevation: 6,
+        elevation: 0,
         backgroundColor: Color(0xFFFFFFFF),
-        shadowColor: Color(0xFFFFFFFF),
         title: Text(
           "Dunia dalam aplikasi",
           style: GoogleFonts.roboto(
