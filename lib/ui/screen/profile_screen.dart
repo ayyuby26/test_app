@@ -14,6 +14,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
+    final user = auth.user;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -83,7 +84,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                     Card(
-                      margin: EdgeInsets.symmetric(horizontal: 10,),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
                       shadowColor: Colors.blue[50],
                       elevation: 4,
                       shape: RoundedRectangleBorder(
@@ -91,23 +94,75 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Column(
                         children: [
                           ListTile(
-                            contentPadding: EdgeInsets.symmetric(horizontal:20), //TODO: atur agar bisa tampiin profile yg baoil
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                            ),
                             title: Text("Nama"),
-                            subtitle: Text(auth.fullname ?? " "),
+                            subtitle: Text(user.fullname ?? "-"),
                           ),
                           Divider(
-                            indent: 15,
-                            endIndent: 15,
+                            indent: 20,
+                            endIndent: 20,
                             thickness: 2,
                             color: Colors.black12,
-                          )
+                          ),
+                          ListTile(
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                            ),
+                            title: Text("Email"),
+                            subtitle: Text(user.email ?? "-"),
+                          ),
                         ],
                       ),
                     ),
-                    ListTile(
-                      title: Text("Nama"),
-                      subtitle: Text(auth.email ?? " "),
-                    )
+                    Container(
+                      margin: EdgeInsets.all(20),
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          // side: BorderSide(color: Colors.red),
+                        ),
+                        onPressed: () {},
+                        child: Container(
+                            alignment: Alignment.center,
+                            width: double.maxFinite,
+                            child: Text("Keluar",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ))),
+                      ),
+                    ),
+                    Material(
+                        type: MaterialType.transparency,
+                        elevation: 6.0,
+                        color: Colors.transparent,
+                        shadowColor: Colors.grey[100],
+                        child: InkWell(
+                          splashColor: Colors.white,
+                          onTap: () {},
+                          child: Container(
+                            padding: EdgeInsets.all(16.0),
+                            child: Row(
+                              children: <Widget>[
+                                SizedBox(
+                                  width: 20.0,
+                                ),
+                                Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "widget.title",
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        )),
                   ],
                 ),
               ),

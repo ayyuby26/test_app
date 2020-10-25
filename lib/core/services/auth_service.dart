@@ -28,11 +28,9 @@ class AuthService {
       if (status == 409)
         Get.snackbar("Kesalahan", result['message']);
       else if (status == 200) {
-        Map <String, dynamic> _r = (result as List)[0];
-        auth.setFullname(_r['fullname']);
-        auth.setEmail(_r['email']);
-        auth.setPass(_r['password']);
-        Get.offNamed('/dashboard');
+        Map<String, dynamic> _r = (result as List)[0];
+        auth.setUser(AuthModel.fromJson(_r));
+        Get.offAllNamed('/dashboard');
       }
     } catch (e) {
       Get.snackbar("Kesalahan1", e.toString());
@@ -56,7 +54,7 @@ class AuthService {
       } else if (response.statusCode == 200) {
         auth.setEmail(email);
         auth.setPass(password);
-        Get.offNamed('/', arguments: "sds");
+        Get.offNamed('/');
         Get.snackbar("Selamat", result);
       }
     } catch (e) {

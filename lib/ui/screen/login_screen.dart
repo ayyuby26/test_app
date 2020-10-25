@@ -15,8 +15,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  var emailCtrl = TextEditingController(text: "fbayub@gmail.com");
-  var passCtrl = TextEditingController(text: "Ayyuby2626");
+  var emailCtrl = TextEditingController();
+  var passCtrl = TextEditingController();
 
   final emailFN = FocusNode();
   final passFN = FocusNode();
@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
           AuthService().authLogin(
             emailCtrl.text,
             passCtrl.text,
-            context
+            context,
           );
         },
       ),

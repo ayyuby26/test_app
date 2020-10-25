@@ -6,6 +6,7 @@ import 'package:get/get_navigation/src/root/root_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:test_app/ui/screen/dashboard_screen.dart';
 import 'package:test_app/ui/screen/login_screen.dart';
+import 'package:test_app/ui/screen/notif_screen.dart';
 import 'package:test_app/ui/screen/profile_screen.dart';
 import 'package:test_app/ui/screen/register_screen.dart';
 import 'core/viewmodel/auth_provider.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/register', page: () => RegisterScreen()),
         GetPage(name: '/dashboard', page: () => DashboardScreen()),
         GetPage(name: '/profile', page: () => ProfileScreen(), transition: Transition.rightToLeft),
+        GetPage(name: '/notif', page: () => NotifScreen(), transition: Transition.rightToLeft),
       ],
       title: 'Test App',
       theme: ThemeData(
