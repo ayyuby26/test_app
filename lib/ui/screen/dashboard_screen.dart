@@ -139,11 +139,85 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(12),
-                                                  child: Material(
-                          type: MaterialType.transparency,
-                          color: Colors.transparent,
+                          child: Material(
+                            type: MaterialType.transparency,
+                            color: Colors.transparent,
                             child: InkWell(
-                            splashColor: Colors.white.withOpacity(.7),
+                              splashColor: Colors.white.withOpacity(.7),
+                              onTap: () {},
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color.fromRGBO(140, 152, 164, .075),
+                              blurRadius: 10)
+                        ],
+                        border: Border.all(
+                            color: Color.fromRGBO(231, 234, 243, .7)),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12)),
+                    margin: EdgeInsets.all(10),
+                    // height: 600,
+                    child: Stack(
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(12)),
+                              child: Image.network(
+                                "https://m.media-amazon.com/images/M/MV5BYWY2ZmIzYTUtZGVmMC00MjAyLWJmNWQtNmVlYmYxNDQyOGQzXkEyXkFqcGdeQXVyNzc4MjM0MDk@._V1_SX300.jpg",
+                                height: 250,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                                // scale: 0.1,
+                                loadingBuilder:
+                                    (context, child, loadingProgress) => Center(
+                                  child: child,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.all(10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "The Man Who Turned to Stone",
+                                    style: GoogleFonts.sourceSansPro(
+                                        textStyle: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16)),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "2020",
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(color: Colors.grey[400]),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Material(
+                            type: MaterialType.transparency,
+                            color: Colors.transparent,
+                            child: InkWell(
+                              splashColor: Colors.white.withOpacity(.7),
                               onTap: () {},
                             ),
                           ),

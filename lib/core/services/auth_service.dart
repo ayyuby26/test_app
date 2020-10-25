@@ -33,7 +33,7 @@ class AuthService {
         Get.offAllNamed('/dashboard');
       }
     } catch (e) {
-      Get.snackbar("Kesalahan1", e.toString());
+      Get.snackbar("Kesalahan", e.toString());
     }
   }
 

@@ -1,10 +1,7 @@
 import 'dart:io';
 
 class AuthModel {
-  final String email;
-  final String password;
-  final String fullname;
-  final String avatar;
+  final String email,password,fullname,avatar;
 
   AuthModel({this.email, this.password, this.fullname, this.avatar});
 
