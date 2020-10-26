@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
           style: TextStyle(color: Colors.white),
         ),
         onPressed: () {
-          AuthService().authLogin(
+          AuthService.authLogin(
             emailCtrl.text,
             passCtrl.text,
             context,

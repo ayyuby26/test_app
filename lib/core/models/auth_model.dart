@@ -1,5 +1,3 @@
-import 'dart:io';
-
 class AuthModel {
   final String email,password,fullname,avatar;
 

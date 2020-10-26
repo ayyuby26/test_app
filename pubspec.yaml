@@ -32,6 +32,7 @@ dependencies:
   get: ^3.13.2
   google_fonts: ^1.1.1
   http: ^0.12.2
+  intl: ^0.16.1
   provider: ^3.2.0
 
 dev_dependencies:

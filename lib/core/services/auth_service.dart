@@ -9,7 +9,7 @@ import 'package:test_app/core/viewmodel/auth_provider.dart';
 class AuthService {
   static const url = "http://192.168.73.114/api/api/user";
 
-  void authLogin(
+  static void  authLogin(
     String email,
     String password,
     BuildContext context,
@@ -30,6 +30,7 @@ class AuthService {
       else if (status == 200) {
         Map<String, dynamic> _r = (result as List)[0];
         auth.setUser(AuthModel.fromJson(_r));
+        // CoronaService.getCard(context);
         Get.offAllNamed('/dashboard');
       }
     } catch (e) {
