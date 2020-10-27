@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:test_app/core/services/auth_service.dart';
 import 'package:test_app/core/viewmodel/auth_provider.dart';
@@ -28,7 +27,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final notif = Provider.of<NotifProvider>(context);
     final auth = Provider.of<AuthProvider>(context);
 
     emailCtrl.text = auth.email;
@@ -36,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
 
-    final _email = Container(
+    final email = Container(
       height: 45,
       child: TextFormField(
         decoration: input.decoration(),
@@ -48,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
 
-    final _pass = TextFormField(
+    final pass = TextFormField(
       decoration: input.decoration(),
       obscureText: true,
       controller: passCtrl,
@@ -58,13 +56,12 @@ class _LoginScreenState extends State<LoginScreen> {
       },
     );
 
-    final _submit = Container(
+    final submit = Container(
       margin: EdgeInsets.symmetric(vertical: 20),
       alignment: Alignment.center,
       child: FlatButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
-          // side: BorderSide(color: Colors.red),
         ),
         color: colours.btnColor,
         child: Text(
@@ -72,6 +69,9 @@ class _LoginScreenState extends State<LoginScreen> {
           style: TextStyle(color: Colors.white),
         ),
         onPressed: () async {
+          emailCtrl.text.isEmpty ? Get.snackbar("Peringatan", "Kolom email tidak boleh kosong"):null;
+          passCtrl.text.isEmpty ? Get.snackbar("Peringatan", "Kolom password tidak boleh kosong"):null;
+
           await AuthService.authLogin(
             emailCtrl.text,
             passCtrl.text,
@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
 
-    final _regis = Row(
+    final regis = Row(
       children: [
         Text("Belum punya akun?"),
         Container(
@@ -101,19 +101,19 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ],
     );
-    final _body = Column(
+    final body = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text("Email"),
         const SizedBox(height: 5),
-        _email,
+        email,
         const SizedBox(height: 15),
         Text("Password"),
         const SizedBox(height: 5),
-        _pass,
-        _submit,
-        _regis,
+        pass,
+        submit,
+        regis,
       ],
     );
 
@@ -121,8 +121,8 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: Container(
             padding: EdgeInsets.all(30),
-            color: Colors.white, //bgColor
-            child: _body),
+            color: Colors.white, 
+            child: body),
       ),
     );
   }
