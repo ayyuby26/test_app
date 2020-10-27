@@ -1,5 +1,6 @@
 import 'package:ant_icons/ant_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:test_app/core/models/auth_model.dart';
@@ -123,7 +124,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           borderRadius: BorderRadius.circular(5),
                           // side: BorderSide(color: Colors.red),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.offAllNamed("/");
+                        },
                         child: Container(
                             alignment: Alignment.center,
                             width: double.maxFinite,

@@ -3,9 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:test_app/core/models/corona_model.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:test_app/core/services/corona_total_service.dart';
+import 'package:test_app/core/viewmodel/corona_provider.dart';
+import 'package:test_app/core/viewmodel/notif_provider.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -13,15 +15,14 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  CoronaModel crn = null;
-
-  data() async => crn = await CoronaTotalService.getCard(context);
-
-  // coma(String s) => s.subs TODO:last
   @override
   void initState() {
     super.initState();
-    data();
+    initializeDateFormatting();
+  }
+
+  formatted(String s) {
+    return NumberFormat("#,##0", "id").format(int.parse(s));
   }
 
   final searchCtrl = TextEditingController();
@@ -30,9 +31,81 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final dashboard = Provider.of<CoronaProvider>(context);
-    // var card = dashboard.corona;
-    // if (card == null) CardService.getCard(context);
+    final value = Provider.of<CoronaProvider>(context);
+    final getAdd = value.addition.update.coronaAddModel;
+    final getTot = value.total.update.coronaAddModel;
+
+    card(String title, valueTitle, subTitle, valueSubTitle) {
+      return Container(
+        decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromRGBO(140, 152, 164, .075),
+                blurRadius: 10,
+              )
+            ],
+            border: Border.all(
+              color: Color.fromRGBO(231, 234, 243, .7),
+            ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12)),
+        margin: EdgeInsets.all(10),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: FlatButton(
+              onPressed: () {
+                Provider.of<NotifProvider>(context)
+                    .setNotif("title", "message", "image", "url");
+                print(Provider.of<NotifProvider>(context).notif);
+              },
+              child: Container(
+                margin: EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                          color: Color(0xFF8c98a4),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      value != null ? formatted(valueTitle) : "",
+                      style: GoogleFonts.mukta(
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 26),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      subTitle,
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 11,
+                          color: Color(0xFF8c98a4),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      valueSubTitle != null ? formatted(valueSubTitle) : "",
+                      style: GoogleFonts.mukta(
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 14),
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+        ),
+      );
+    }
+
     Future<bool> onWillPop() async {
       return await showDialog(
         context: context,
@@ -62,9 +135,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         elevation: 0,
         backgroundColor: Color(0xFFFFFFFF),
         title: Text(
-          "Kasus Corona Di Indonesia",
-          style: GoogleFonts.roboto(
-            textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          "Corona Di Indonesia",
+          style: GoogleFonts.openSans(
+            textStyle: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         actions: [
@@ -85,139 +161,104 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: SafeArea(
         child: Container(
           color: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 5),
           height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                GridView.count(
-                  childAspectRatio: 0.58,
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  crossAxisCount: 2,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: 10, bottom: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                color: Color.fromRGBO(140, 152, 164, .075),
-                                blurRadius: 10)
-                          ],
-                          border: Border.all(
-                              color: Color.fromRGBO(231, 234, 243, .7)),
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12)),
-                      margin: EdgeInsets.all(10),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: FlatButton(
-                            onPressed: () {},
-                            child: Container(
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "Total sembuh",
-                                    style: GoogleFonts.sourceSansPro(
-                                        textStyle: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16)),
-                                  ),
-                                  Text(
-                                    crn.positive.toString() ?? "",
-                                    style: GoogleFonts.sourceSansPro(
-                                        textStyle: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16)),
-                                  ),
-                                ],
-                              ),
-                            )),
+                    Text(
+                      "Hari ini",
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
                       ),
-                    )
+                    ),
+                    Text(
+                      DateFormat('EEEE, d MMMM y', 'id')
+                          .format(DateTime.now())
+                          .toString(),
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                          fontSize: 11,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
                   ],
-                )
-              ],
-            ),
+                ),
+              ),
+              GridView.count(
+                childAspectRatio: 1,
+                physics: ScrollPhysics(),
+                shrinkWrap: true,
+                crossAxisCount: 2,
+                children: [
+                  card(
+                    "POSITIF",
+                    getAdd.positiveTotal.toString(),
+                    'Total Positif',
+                    getTot.positiveTotal.toString(),
+                  ),
+                  card(
+                    "SEMBUH",
+                    getAdd.recoveredTotal.toString(),
+                    'Total Sembuh',
+                    getTot.recoveredTotal.toString(),
+                  ),
+                  card(
+                    "DIRAWAT",
+                    getAdd.treatedTotal.toString(),
+                    'Total Dirawat',
+                    getTot.treatedTotal.toString(),
+                  ),
+                  card(
+                    "MENINGGAL",
+                    getAdd.deadTotal.toString(),
+                    'Total Meninggal',
+                    getTot.deadTotal.toString(),
+                  ),
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Terakhir diperbarui",
+                      style: GoogleFonts.sourceSansPro(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                          color: Color(0xFF8c98a4),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      value.addition.update.coronaAddModel.created,
+                      style: GoogleFonts.sourceSansPro(
+                        textStyle: TextStyle(
+                          fontSize: 11,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),
-      //   SafeArea(
-      //   child: WillPopScope(
-      // onWillPop: onWillPop,
     );
   }
 }
-
-// Container(
-//   decoration: BoxDecoration(
-//       boxShadow: [
-//         BoxShadow(
-//             color: Color.fromRGBO(140, 152, 164, .075),
-//             blurRadius: 10)
-//       ],
-//       border: Border.all(
-//           color: Color.fromRGBO(231, 234, 243, .7)),
-//       color: Colors.white,
-//       borderRadius: BorderRadius.circular(12)),
-//   margin: EdgeInsets.all(10),
-//   // height: 600,
-//   child: Stack(
-//     children: [
-//       Column(
-//         mainAxisSize: MainAxisSize.max,
-//         children: [
-//           ClipRRect(
-//             borderRadius: BorderRadius.vertical(
-//                 top: Radius.circular(12)),
-//             child: Image.network(
-//               "https://m.media-amazon.com/images/M/MV5BYWY2ZmIzYTUtZGVmMC00MjAyLWJmNWQtNmVlYmYxNDQyOGQzXkEyXkFqcGdeQXVyNzc4MjM0MDk@._V1_SX300.jpg",
-//               height: 250,
-//               width: double.infinity,
-//               fit: BoxFit.cover,
-//               // scale: 0.1,
-//               loadingBuilder:
-//                   (context, child, loadingProgress) => Center(
-//                 child: child,
-//               ),
-//             ),
-//           ),
-//           Container(
-//             alignment: Alignment.centerLeft,
-//             margin: EdgeInsets.all(10),
-//             child: Column(
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Text(
-//                   "The Man Who Turned to Stone",
-//                   style: GoogleFonts.sourceSansPro(
-//                       textStyle: TextStyle(
-//                           fontWeight: FontWeight.bold,
-//                           fontSize: 16)),
-//                 ),
-//                 SizedBox(
-//                   height: 5,
-//                 ),
-//                 Text(
-//                   "2020",
-//                   textAlign: TextAlign.start,
-//                   style: TextStyle(color: Colors.grey[400]),
-//                 )
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//       ClipRRect(
-//         borderRadius: BorderRadius.circular(12),
-//         child: Material(
-//           type: MaterialType.transparency,
-//           color: Colors.transparent,
-//           child: InkWell(
-//             splashColor: Colors.white.withOpacity(.7),
-//             onTap: () {},
-//           ),
-//         ),
-//       )
-//     ],
-//   ),
-// ),

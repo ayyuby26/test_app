@@ -86,13 +86,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final login = Row(
       children: [
         Text("Tidak, "),
-        InkWell(
-          onTap: () {
-            Get.offNamed('/');
-          },
-          child: Text(
-            "saya ingin masuk",
-            style: TextStyle(color: Colors.blue),
+        Container(
+          alignment: Alignment.center,
+          height: 20,
+          child: FlatButton(
+            padding: EdgeInsets.zero,
+            onPressed: () {
+              Get.toNamed('/');
+            },
+            child: Text(
+              "saya ingin masuk ",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.blue),
+            ),
           ),
         ),
       ],

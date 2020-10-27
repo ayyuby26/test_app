@@ -6,10 +6,13 @@ import 'package:provider/provider.dart';
 import 'package:test_app/core/models/auth_model.dart';
 import 'package:test_app/core/viewmodel/auth_provider.dart';
 
-class AuthService {
-  static const url = "http://192.168.73.114/api/api/user";
+import 'corona_total_service.dart';
 
-  static void  authLogin(
+class AuthService {
+  // static const url = "http://192.168.73.114/api/api/user";
+  static const url = "http://192.168.43.2/api/api/user";
+
+  static Future<void> authLogin(
     String email,
     String password,
     BuildContext context,
@@ -28,13 +31,17 @@ class AuthService {
       if (status == 409)
         Get.snackbar("Kesalahan", result['message']);
       else if (status == 200) {
+        await CoronaService.getCard(context);
+
         Map<String, dynamic> _r = (result as List)[0];
+
         auth.setUser(AuthModel.fromJson(_r));
-        // CoronaService.getCard(context);
+
         Get.offAllNamed('/dashboard');
       }
     } catch (e) {
       Get.snackbar("Kesalahan", e.toString());
+      print(e);
     }
   }
 

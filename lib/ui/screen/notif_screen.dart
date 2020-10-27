@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:test_app/core/viewmodel/notif_provider.dart';
 
 class NotifScreen extends StatefulWidget {
   @override
@@ -9,6 +11,7 @@ class NotifScreen extends StatefulWidget {
 class _NotifScreenState extends State<NotifScreen> {
   @override
   Widget build(BuildContext context) {
+    final notifProvider = Provider.of<NotifProvider>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -28,24 +31,38 @@ class _NotifScreenState extends State<NotifScreen> {
           ),
         ),
       ),
+// TODO:LAST
+     var list = Expanded(
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: notifProvider.notif.length,
+                        itemBuilder: (context, i) {
+                          print(notifProvider.notif.length);
+                          return ListTile(
+                            onTap: () {},
+                            title: Text(notifProvider.notif[i].title),
+                            subtitle: Text(notifProvider.notif[i].message),
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 1,
+                                    color: Colors.black,
+                                    style: BorderStyle.solid)),
+                          );
+                        }),
+                  );
       body: SafeArea(
-          child: Column(
-        children: [
-          Container(
-            // padding: EdgeInsets.only(top: 10),
-            child: Column(
-              children: [
-                ListTile(
-                  // contentPadding: EdgeInsets.zero,
-                  title: Text("Judul Notif"),
-                  subtitle: Text("Deskripsi Notifikasi"),
-                ),
-                Divider()
-              ],
+        child: 
+            Container(
+              padding: EdgeInsets.only(top: 10),
+              height: MediaQuery.of(context).size.height-85,
+              child: Column(
+                children: [
+                  ,
+                ],
+              ),
             ),
-          )
-        ],
-      )),
+      ),
     );
   }
 }
