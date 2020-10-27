@@ -34,23 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
     emailCtrl.text = auth.email;
     passCtrl.text = auth.password;
 
-    OneSignal.shared.setNotificationReceivedHandler(
-      (OSNotification notification) {
-        final n = notification.payload;
-        notif.setNotif(
-          n.title,
-          n.body,
-          n.bigPicture,
-          n.launchUrl,
-        );
-      },
-    );
 
-    OneSignal.shared.setNotificationOpenedHandler(
-      (OSNotificationOpenedResult result) {
-        Get.toNamed('/notif');
-      },
-    );
 
     final _email = Container(
       height: 45,

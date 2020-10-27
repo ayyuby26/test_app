@@ -144,13 +144,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
         actions: [
-          IconButton(
+          IconButton(tooltip: "notifikasi",
             icon: Icon(AntIcons.notification_outline),
             onPressed: () {
               Get.toNamed('/notif');
             },
           ),
-          IconButton(
+          IconButton(tooltip: "profile",
             icon: Icon(AntIcons.user),
             onPressed: () {
               Get.toNamed('/profile');

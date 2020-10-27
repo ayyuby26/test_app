@@ -42,14 +42,42 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  String title, body, bigPicture, launchUrl;
+  
   @override
   void initState() {
-
     super.initState();
+
+    OneSignal.shared.setNotificationReceivedHandler(
+      (OSNotification notification) {
+        final n = notification.payload;
+
+        title = n.title;
+        body = n.body;
+        bigPicture = n.bigPicture;
+        launchUrl = n.launchUrl;
+      },
+    );
+
+    OneSignal.shared.setNotificationOpenedHandler(
+      (OSNotificationOpenedResult result) {
+        // go();
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final notif = Provider.of<NotifProvider>(context);
+    final auth = Provider.of<AuthProvider>(context);
+
+    notif.setNotif(title, body, bigPicture, launchUrl);
+
+    // go() {
+    //   if (auth.email.isNotEmpty) Get.toNamed('/notif');
+    //   print(auth.email);
+    // }
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));

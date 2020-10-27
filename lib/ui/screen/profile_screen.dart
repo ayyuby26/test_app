@@ -125,6 +125,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           // side: BorderSide(color: Colors.red),
                         ),
                         onPressed: () {
+                          auth.setEmail(null);
+                          auth.setUser(null);
+                          auth.setPass(null);
                           Get.offAllNamed("/");
                         },
                         child: Container(
