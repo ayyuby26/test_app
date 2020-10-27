@@ -11,7 +11,30 @@ class NotifScreen extends StatefulWidget {
 class _NotifScreenState extends State<NotifScreen> {
   @override
   Widget build(BuildContext context) {
+
     final notifProvider = Provider.of<NotifProvider>(context);
+
+    content(int i) => ListTile(
+          onTap: () {},
+          title: Text(notifProvider.notif[i].title),
+          subtitle: Text(notifProvider.notif[i].message),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              width: 1,
+              color: Colors.black,
+              style: BorderStyle.solid,
+            ),
+          ),
+        );
+
+    final list = Expanded(
+      child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemCount: notifProvider.notif.length,
+          itemBuilder: (context, i) => content(i)),
+    );
+    
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -27,41 +50,23 @@ class _NotifScreenState extends State<NotifScreen> {
         title: Text(
           "Notifikasi",
           style: GoogleFonts.sourceSansPro(
-            textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
+            textStyle: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.normal,
+            ),
           ),
         ),
       ),
-// TODO:LAST
-     var list = Expanded(
-                    child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: notifProvider.notif.length,
-                        itemBuilder: (context, i) {
-                          print(notifProvider.notif.length);
-                          return ListTile(
-                            onTap: () {},
-                            title: Text(notifProvider.notif[i].title),
-                            subtitle: Text(notifProvider.notif[i].message),
-                            shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    width: 1,
-                                    color: Colors.black,
-                                    style: BorderStyle.solid)),
-                          );
-                        }),
-                  );
       body: SafeArea(
-        child: 
-            Container(
-              padding: EdgeInsets.only(top: 10),
-              height: MediaQuery.of(context).size.height-85,
-              child: Column(
-                children: [
-                  ,
-                ],
-              ),
-            ),
+        child: Container(
+          padding: EdgeInsets.only(top: 10),
+          height: MediaQuery.of(context).size.height - 85,
+          child: Column(
+            children: [
+              list,
+            ],
+          ),
+        ),
       ),
     );
   }
