@@ -73,6 +73,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         passFN.requestFocus();
         Get.snackbar("Peringatan", "Kolom password tidak boleh kosong");
       } else {
+        passFN.unfocus();
+        emailFN.unfocus();
         int i = await AuthService().authRegister(
           emailCtrl.text,
           passCtrl.text,

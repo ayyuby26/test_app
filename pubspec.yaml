@@ -31,7 +31,6 @@ dependencies:
   email_validator: ^1.0.6
   # encrypt: ^4.1.0
   enum_to_string: ^1.0.13
-  get: ^3.13.2
   google_fonts: ^1.1.1
   http: ^0.12.2
   intl: ^0.16.1
@@ -41,6 +40,8 @@ dependencies:
   onesignal_flutter: ^2.6.1
   path_provider: ^1.6.22
   provider: ^3.2.0
+  flutter_svg: ^0.19.1
+  get: ^3.13.0
 
 dev_dependencies:
   flutter_test:
@@ -82,3 +83,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+

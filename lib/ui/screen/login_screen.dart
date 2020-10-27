@@ -1,9 +1,9 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:test_app/core/services/auth_service.dart';
 import 'package:test_app/core/viewmodel/auth_provider.dart';
-import 'package:test_app/core/viewmodel/notif_provider.dart';
 import 'package:test_app/ui/constant/constant.dart';
 import '../templates.dart';
 
@@ -32,8 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
     emailCtrl.text = auth.email;
     passCtrl.text = auth.password;
 
-
-
     final email = Container(
       height: 45,
       child: TextFormField(
@@ -56,6 +54,28 @@ class _LoginScreenState extends State<LoginScreen> {
       },
     );
 
+    validator() async {
+      final emailValid = EmailValidator.validate(emailCtrl.text);
+      if (emailCtrl.text == '') {
+        emailFN.requestFocus();
+        Get.snackbar("Peringatan", "Kolom nama tidak boleh kosong");
+      } else if (emailValid == false) {
+        emailFN.requestFocus();
+        Get.snackbar("Peringatan", "email tidak valid");
+      } else if (passCtrl.text == '') {
+        passFN.requestFocus();
+        Get.snackbar("Peringatan", "Kolom password tidak boleh kosong");
+      } else {
+        passFN.unfocus();
+        emailFN.unfocus();
+        await AuthService.authLogin(
+          emailCtrl.text,
+          passCtrl.text,
+          context,
+        );
+      }
+    }
+
     final submit = Container(
       margin: EdgeInsets.symmetric(vertical: 20),
       alignment: Alignment.center,
@@ -69,14 +89,9 @@ class _LoginScreenState extends State<LoginScreen> {
           style: TextStyle(color: Colors.white),
         ),
         onPressed: () async {
-          emailCtrl.text.isEmpty ? Get.snackbar("Peringatan", "Kolom email tidak boleh kosong"):null;
-          passCtrl.text.isEmpty ? Get.snackbar("Peringatan", "Kolom password tidak boleh kosong"):null;
-
-          await AuthService.authLogin(
-            emailCtrl.text,
-            passCtrl.text,
-            context,
-          );
+          // validator();
+          Get.toNamed("/");
+          loadingDialog(context, _alert)
         },
       ),
     );
@@ -91,6 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: EdgeInsets.zero,
             onPressed: () {
               Get.toNamed('/register');
+              // TODO:LAST BRO
             },
             child: Text(
               "Daftar disini ",
@@ -118,11 +134,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     return Scaffold(
+      key: ,
       body: SafeArea(
         child: Container(
-            padding: EdgeInsets.all(30),
-            color: Colors.white, 
-            child: body),
+          padding: EdgeInsets.all(30),
+          color: Colors.white,
+          child: body,
+        ),
       ),
     );
   }

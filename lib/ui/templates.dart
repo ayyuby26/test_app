@@ -1,7 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'constant/constant.dart';
+  
 
 class TextInput {
+final _loading = GlobalKey<FormState>(debugLabel: "loading");
+
   final _colours = Colours();
   decoration() {
     return InputDecoration(
@@ -37,3 +42,25 @@ class TextInput {
     );
   }
 }
+
+loadingDialog(
+  final BuildContext _,
+  final GlobalKey<FormState> _alert,
+) =>
+    showDialog(
+      context: _,
+      builder: (_) => CupertinoAlertDialog(
+        key: _alert,
+        content: Center(
+          child: Column(
+            children: [
+              Container(
+                child: CupertinoActivityIndicator(),
+                height: 150,
+                width: 150,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
