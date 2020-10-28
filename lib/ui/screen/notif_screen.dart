@@ -16,8 +16,8 @@ class _NotifScreenState extends State<NotifScreen> {
 
     content(int i) => ListTile(
           onTap: () {},
-          title: Text(notifProvider.notif[i].title),
-          subtitle: Text(notifProvider.notif[i].message),
+          title: Text(notifProvider.notif[i].title??""),
+          subtitle: Text(notifProvider.notif[i].message??""),
           shape: RoundedRectangleBorder(
             side: BorderSide(
               width: 1,

@@ -5,20 +5,22 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:test_app/core/models/auth_model.dart';
 import 'package:test_app/core/viewmodel/auth_provider.dart';
+import 'package:test_app/ui/templates.dart';
 
 import 'corona_total_service.dart';
 
 class AuthService {
-  // static const url = "http://192.168.73.114/api/api/user";
-  static const url = "http://192.168.43.2/api/api/user";
+  static const url = "https://api-test.loker-cikarang.com/api/user";
 
   static Future<void> authLogin(
     String email,
     String password,
     BuildContext context,
+    GlobalKey<ScaffoldState> key,
   ) async {
     final auth = Provider.of<AuthProvider>(context);
     try {
+      loadingDialog();
       var response = await http.put(url,
           body: jsonEncode({
             "email": email,
@@ -28,9 +30,12 @@ class AuthService {
 
       var status = response.statusCode;
       var result = json.decode(response.body);
-      if (status == 409)
+      if (status == 409) {
+        Get.back();
         Get.snackbar("Kesalahan", result['message']);
-      else if (status == 200) {
+      } else if (status == 200) {
+        Get.back();
+
         await CoronaService.getCard(context);
 
         Map<String, dynamic> _r = (result as List)[0];
@@ -41,6 +46,9 @@ class AuthService {
       }
     } catch (e) {
       Get.snackbar("Kesalahan", e.toString());
+
+      Get.back();
+
       print(e);
     }
   }
@@ -49,6 +57,7 @@ class AuthService {
       BuildContext context) async {
     final auth = Provider.of<AuthProvider>(context);
     try {
+      loadingDialog();
       var response = await http.post(url, body: {
         "email": email,
         "password": password,
@@ -57,15 +66,18 @@ class AuthService {
 
       var result = json.decode(response.body)['message'];
       if (response.statusCode == 409) {
+        Get.back();
         Get.snackbar("Kesalahan", result);
         return response.statusCode;
       } else if (response.statusCode == 200) {
+        Get.back();
         auth.setEmail(email);
         auth.setPass(password);
         Get.offNamed('/');
         Get.snackbar("Selamat", result);
       }
     } catch (e) {
+      Get.back();
       Get.snackbar("Kesalahan", e.toString());
     }
   }

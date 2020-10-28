@@ -16,6 +16,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final key = GlobalKey<ScaffoldState>();
   var emailCtrl = TextEditingController();
   var passCtrl = TextEditingController();
 
@@ -72,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
           emailCtrl.text,
           passCtrl.text,
           context,
+          key
         );
       }
     }
@@ -89,9 +91,8 @@ class _LoginScreenState extends State<LoginScreen> {
           style: TextStyle(color: Colors.white),
         ),
         onPressed: () async {
-          // validator();
-          Get.toNamed("/");
-          loadingDialog(context, _alert)
+          validator();
+          // Get.toNamed("/");
         },
       ),
     );
@@ -134,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     return Scaffold(
-      key: ,
+      key: key,
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.all(30),

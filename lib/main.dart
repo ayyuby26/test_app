@@ -2,7 +2,7 @@ import 'package:colours/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
+import 'package:get/get_navigation/src/root/root_widget.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:test_app/core/viewmodel/corona_provider.dart';
@@ -43,41 +43,36 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String title, body, bigPicture, launchUrl;
-  
+  var auth, notif;
+
   @override
   void initState() {
     super.initState();
 
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      auth = Provider.of<AuthProvider>(context);
+      notif = Provider.of<NotifProvider>(context);
+    });
+
     OneSignal.shared.setNotificationReceivedHandler(
       (OSNotification notification) {
         final n = notification.payload;
-
-        title = n.title;
-        body = n.body;
-        bigPicture = n.bigPicture;
-        launchUrl = n.launchUrl;
+        notif.setNotif(n.title, n.body, n.bigPicture, n.launchUrl);
       },
     );
 
     OneSignal.shared.setNotificationOpenedHandler(
       (OSNotificationOpenedResult result) {
-        // go();
+        Get.snackbar(
+            "Peringatan", "Masuk terlebih dahulu untuk melihat notifikasi",
+            duration: Duration(seconds: 5));
+        if (auth.email != null) Get.toNamed('/notif');
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final notif = Provider.of<NotifProvider>(context);
-    final auth = Provider.of<AuthProvider>(context);
-
-    notif.setNotif(title, body, bigPicture, launchUrl);
-
-    // go() {
-    //   if (auth.email.isNotEmpty) Get.toNamed('/notif');
-    //   print(auth.email);
-    // }
-
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));

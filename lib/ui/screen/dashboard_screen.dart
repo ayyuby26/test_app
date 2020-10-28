@@ -1,4 +1,5 @@
 import 'package:ant_icons/ant_icons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,9 +55,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           borderRadius: BorderRadius.circular(12),
           child: FlatButton(
               onPressed: () {
-                Provider.of<NotifProvider>(context)
-                    .setNotif("title", "message", "image", "url");
-                print(Provider.of<NotifProvider>(context).notif);
+                // Provider.of<NotifProvider>(context)
+                //     .setNotif("title", "message", "image", "url");
+                // print(Provider.of<NotifProvider>(context).notif);
               },
               child: Container(
                 margin: EdgeInsets.all(20),
@@ -144,13 +145,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
         actions: [
-          IconButton(tooltip: "notifikasi",
-            icon: Icon(AntIcons.notification_outline),
-            onPressed: () {
-              Get.toNamed('/notif');
-            },
-          ),
-          IconButton(tooltip: "profile",
+          IconButton(
+              tooltip: "notifikasi",
+              icon: Icon(AntIcons.notification_outline),
+              onPressed: () {
+                Get.toNamed("/notif");
+                // print(Provider.of<NotifProvider>(context).notif.length);
+              }),
+          IconButton(
+            tooltip: "profile",
             icon: Icon(AntIcons.user),
             onPressed: () {
               Get.toNamed('/profile');
