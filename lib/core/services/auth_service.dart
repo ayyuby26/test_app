@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -8,6 +9,9 @@ import 'package:test_app/core/viewmodel/auth_provider.dart';
 import 'package:test_app/ui/templates.dart';
 
 import 'corona_total_service.dart';
+
+  Future<Directory> _appDocumentsDirectory;
+
 
 class AuthService {
   static const url = "https://api-test.loker-cikarang.com/api/user";

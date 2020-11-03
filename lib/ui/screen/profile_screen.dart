@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:test_app/core/models/auth_model.dart';
 import 'package:test_app/core/viewmodel/auth_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -12,10 +11,17 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  AuthProvider auth;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthProvider>(context);
-    final user = auth.user;
+    auth = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -44,46 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Container(
                 child: Column(
                   children: [
-                    Stack(
-                      children: [
-                        Container(
-                          // width: 120,
-                          padding: EdgeInsets.all(0),
-                          decoration: BoxDecoration(
-                            // border: Border.all(),
-                            shape: BoxShape.circle,
-                            color: Color(0xFFFEFEFE),
-                            // borderRadius: BorderRadius.circular(80),
-                          ),
-                          margin: EdgeInsets.all(40),
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                width: 3,
-                                color: Color(0xFFefefef),
-                              ),
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.all(30),
-                              child: Icon(
-                                AntIcons.user,
-                                size: 80,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                            bottom: 45,
-                            right: 45,
-                            child: IconButton(
-                                icon: Icon(
-                                  AntIcons.camera,
-                                  size: 40,
-                                ),
-                                onPressed: () {}))
-                      ],
-                    ),
+                    SizedBox(height: 20,),
                     Card(
                       margin: EdgeInsets.symmetric(
                         horizontal: 10,
@@ -99,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               horizontal: 20,
                             ),
                             title: Text("Nama"),
-                            subtitle: Text(user.fullname ?? "-"),
+                            subtitle: Text(auth.user.fullname ?? "-"),
                           ),
                           Divider(
                             indent: 20,
@@ -112,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               horizontal: 20,
                             ),
                             title: Text("Email"),
-                            subtitle: Text(user.email ?? "-"),
+                            subtitle: Text(auth.user.email ?? "-"),
                           ),
                         ],
                       ),
@@ -125,10 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           // side: BorderSide(color: Colors.red),
                         ),
                         onPressed: () {
-                          auth.setEmail(null);
-                          auth.setUser(null);
-                          auth.setPass(null);
-                          Get.offAllNamed("/");
+                          onWillPop();
                         },
                         child: Container(
                             alignment: Alignment.center,
@@ -176,6 +140,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
       )),
+    );
+  }
+
+  Future<bool> onWillPop() async {
+    return await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Konfirmasi"),
+          content: Container(
+            child: Text("Apakah anda yakin ingin keluar ?"),
+          ),
+          actions: [
+            FlatButton(
+              onPressed: Get.back,
+              child: Text("Batal"),
+            ),
+            FlatButton(
+              onPressed: () {
+                auth.setEmail(null);
+                auth.setUser(null);
+                auth.setPass(null);
+                Get.offAllNamed("/");
+              },
+              child: Text("Keluar"),
+            ),
+          ],
+        );
+      },
     );
   }
 }

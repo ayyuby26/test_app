@@ -43,7 +43,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String title, body, bigPicture, launchUrl;
-  var auth, notif;
+  AuthProvider auth;
+  NotifProvider notif;
 
   @override
   void initState() {
@@ -63,10 +64,17 @@ class _MyAppState extends State<MyApp> {
 
     OneSignal.shared.setNotificationOpenedHandler(
       (OSNotificationOpenedResult result) {
-        Get.snackbar(
-            "Peringatan", "Masuk terlebih dahulu untuk melihat notifikasi",
-            duration: Duration(seconds: 5));
-        if (auth.email != null) Get.toNamed('/notif');
+        if (auth.user != null) {
+          Get.toNamed('/notif');
+          print("success");
+        } else {
+          Get.snackbar(
+            "Peringatan",
+            "Masuk terlebih dahulu untuk melihat notifikasi",
+            duration: Duration(seconds: 5),
+          );
+          print("failed");
+        }
       },
     );
   }
@@ -94,7 +102,7 @@ class _MyAppState extends State<MyApp> {
       ],
       title: 'Test App',
       theme: ThemeData(
-        primarySwatch: Colours.aliceBlue,
+        primarySwatch: Colours.darkGrey,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
     );

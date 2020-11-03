@@ -131,134 +131,137 @@ class _DashboardScreenState extends State<DashboardScreen> {
       );
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Color(0xFFFFFFFF),
-        title: Text(
-          "Corona Di Indonesia",
-          style: GoogleFonts.openSans(
-            textStyle: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+    return WillPopScope(
+          onWillPop: onWillPop,
+          child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Color(0xFFFFFFFF),
+          title: Text(
+            "Corona Di Indonesia",
+            style: GoogleFonts.openSans(
+              textStyle: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-        actions: [
-          IconButton(
-              tooltip: "notifikasi",
-              icon: Icon(AntIcons.notification_outline),
+          actions: [
+            IconButton(
+                tooltip: "notifikasi",
+                icon: Icon(AntIcons.notification_outline),
+                onPressed: () {
+                  Get.toNamed("/notif");
+                  // print(Provider.of<NotifProvider>(context).notif.length);
+                }),
+            IconButton(
+              tooltip: "profile",
+              icon: Icon(AntIcons.user),
               onPressed: () {
-                Get.toNamed("/notif");
-                // print(Provider.of<NotifProvider>(context).notif.length);
-              }),
-          IconButton(
-            tooltip: "profile",
-            icon: Icon(AntIcons.user),
-            onPressed: () {
-              Get.toNamed('/profile');
-            },
-          )
-        ],
-      ),
-      body: SafeArea(
-        child: Container(
-          color: Colors.white,
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                margin: EdgeInsets.only(left: 10, bottom: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Get.toNamed('/profile');
+              },
+            )
+          ],
+        ),
+        body: SafeArea(
+          child: Container(
+            color: Colors.white,
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 10, bottom: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Hari ini",
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        DateFormat('EEEE, d MMMM y', 'id')
+                            .format(DateTime.now())
+                            .toString(),
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                            fontSize: 11,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                GridView.count(
+                  childAspectRatio: 1,
+                  physics: ScrollPhysics(),
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
                   children: [
-                    Text(
-                      "Hari ini",
-                      style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
-                      ),
+                    card(
+                      "POSITIF",
+                      getAdd.positiveTotal.toString(),
+                      'Total Positif',
+                      getTot.positiveTotal.toString(),
                     ),
-                    Text(
-                      DateFormat('EEEE, d MMMM y', 'id')
-                          .format(DateTime.now())
-                          .toString(),
-                      style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                          fontSize: 11,
-                          color: Colors.black,
-                        ),
-                      ),
+                    card(
+                      "SEMBUH",
+                      getAdd.recoveredTotal.toString(),
+                      'Total Sembuh',
+                      getTot.recoveredTotal.toString(),
+                    ),
+                    card(
+                      "DIRAWAT",
+                      getAdd.treatedTotal.toString(),
+                      'Total Dirawat',
+                      getTot.treatedTotal.toString(),
+                    ),
+                    card(
+                      "MENINGGAL",
+                      getAdd.deadTotal.toString(),
+                      'Total Meninggal',
+                      getTot.deadTotal.toString(),
                     ),
                   ],
                 ),
-              ),
-              GridView.count(
-                childAspectRatio: 1,
-                physics: ScrollPhysics(),
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                children: [
-                  card(
-                    "POSITIF",
-                    getAdd.positiveTotal.toString(),
-                    'Total Positif',
-                    getTot.positiveTotal.toString(),
-                  ),
-                  card(
-                    "SEMBUH",
-                    getAdd.recoveredTotal.toString(),
-                    'Total Sembuh',
-                    getTot.recoveredTotal.toString(),
-                  ),
-                  card(
-                    "DIRAWAT",
-                    getAdd.treatedTotal.toString(),
-                    'Total Dirawat',
-                    getTot.treatedTotal.toString(),
-                  ),
-                  card(
-                    "MENINGGAL",
-                    getAdd.deadTotal.toString(),
-                    'Total Meninggal',
-                    getTot.deadTotal.toString(),
-                  ),
-                ],
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Terakhir diperbarui",
-                      style: GoogleFonts.sourceSansPro(
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13,
-                          color: Color(0xFF8c98a4),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Terakhir diperbarui",
+                        style: GoogleFonts.sourceSansPro(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                            color: Color(0xFF8c98a4),
+                          ),
                         ),
                       ),
-                    ),
-                    Text(
-                      value.addition.update.coronaAddModel.created,
-                      style: GoogleFonts.sourceSansPro(
-                        textStyle: TextStyle(
-                          fontSize: 11,
-                          color: Colors.black,
+                      Text(
+                        value.addition.update.coronaAddModel.created,
+                        style: GoogleFonts.sourceSansPro(
+                          textStyle: TextStyle(
+                            fontSize: 11,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
